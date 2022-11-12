@@ -183,6 +183,11 @@
     flex-wrap: wrap;
     padding-top: 0;
     height: 480px;
+    margin-bottom: 0.5rem
+  }
+
+  .friend_container {
+    margin: 0px;
   }
 
   .friendlist-container {
@@ -277,6 +282,14 @@
     float: left;
     max-height: 510px;
   }
+
+  .fId {
+    display: none;
+  }
+
+  .fPass {
+    display: none;
+  }
 </style>
 
 <head>
@@ -306,7 +319,7 @@
   </section>
 
   <section class="notes__body-content notes__body-top-padding">
-    <p class="notes__text">Here are your notes:, you can share your notes by sharing your public id</p>
+    <p class="notes__text">Here are your notes: you can share your notes by sharing your public id</p>
     <ul class="notes__item-container">
       {% for note in notes %}
       {% include "note.html" %}
@@ -354,8 +367,12 @@
       <div class="friendlist-container">
         <p class="notes__text">Friend list:</p>
         <ul class="friend_list">
-          {% for friend in friends %}
-          {% include "friend.html" %}
+          {% for friend in friendsInfoList %}
+            <li class = friend_container>
+                <h6 class = fId>{{ friend.0.0 }}</h6>
+                <h6 class = fName>{{ friend.0.1 }}</h6>
+                <h6 class = fPass>{{ friend.0.2 }}</h6>
+            </li>
           {% endfor %}
         </ul>
       </div>
