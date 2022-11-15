@@ -35,8 +35,10 @@ CREATE TABLE users (
 
 CREATE TABLE friendlist (
     assocUser INTEGER,
-    friendName TEXT NOT NULL,
-    UNIQUE(assocUser, friendName)
+    friendId INTEGER NOT NULL,
+    FOREIGN KEY (friendId)
+        REFERENCES users (id),
+    UNIQUE(assocUser, friendId)
 );
 
 INSERT INTO users VALUES(null,"admin", "password");
@@ -45,7 +47,7 @@ INSERT INTO users VALUES(null,"Markus", "markus123");
 INSERT INTO users VALUES(null,"Dagrun", "dagrun123");
 INSERT INTO notes VALUES(null,2,"1993-09-23 10:10:10","hello my friend",1234567890);
 INSERT INTO notes VALUES(null,2,"1993-09-23 12:10:10","i want lunch pls",1234567891);
-INSERT INTO friendlist VALUES(1, "bernardo");
+INSERT INTO friendlist VALUES(1, 2);
 
 """)
 
@@ -115,7 +117,7 @@ def notes():
             if(len(result)>0):
                 row = result[0]
                 # statement = """INSERT INTO notes(id,assocUser,dateWritten,note,publicID) VALUES(null,%s,'%s','%s',%s);""" %(session['userid'],row[2],row[3],row[4])
-                statement = """INSERT INTO friendlist(assocUser,friendname) VALUES('%s','%s');""" %(session['userid'],row[1])
+                statement = """INSERT INTO friendlist(assocUser,friendId) VALUES('%s','%s');""" %(session['userid'],row[0])
                 c.execute(statement)
             else:
                 importerror="No person with that username!"
@@ -133,12 +135,21 @@ def notes():
     notes = c.fetchall()
     print(notes)
     
-    # Get friends
+    # Get ID of all friends
     statement = "SELECT * FROM friendlist WHERE assocUser = %s;" %session['userid']
     c.execute(statement)
     friends = c.fetchall()
 
-    return render_template('notes.html',notes=notes, friends=friends,importerror=importerror)
+    # Get information of friends
+    friendsInfoList = []
+
+    for row in friends:
+        statement = "SELECT * FROM users WHERE id = %d;" % row[1]
+        c.execute(statement)
+        friendInfo = c.fetchall()
+        friendsInfoList.append(friendInfo)
+
+    return render_template('notes.html',notes=notes, friendsInfoList=friendsInfoList,importerror=importerror)
 
 @app.route("/notes/delete/<publicID>", methods=('GET', 'POST'))
 def delete(publicID):
