@@ -49,7 +49,13 @@ INSERT INTO users VALUES(null,"Frederik", "frederik123");
 INSERT INTO users VALUES(null,"Joakim", "joakim123");
 INSERT INTO users VALUES(null,"Markus", "markus123");
 INSERT INTO users VALUES(null,"Steven", "steven123");
+INSERT INTO users VALUES(null,"Test", "test123");
 INSERT INTO notes VALUES(null,2,"1993-09-23 10:10:10","hello my friend",1234567890);
+INSERT INTO notes VALUES(null,3,"1993-09-23 10:10:10","I love security",1111111110);
+INSERT INTO notes VALUES(null,1,"1993-09-23 10:10:10","Admin rules",1111111111);
+INSERT INTO notes VALUES(null,1,"1993-09-23 10:10:10","Good luck trying to get into this very secure system",1243433422);
+INSERT INTO notes VALUES(null,1,"1993-09-23 10:10:10","The code is secu04",1243433242);
+INSERT INTO notes VALUES(null,1,"1993-09-23 10:10:10","No, the code is adminRules",1243433452);
 INSERT INTO notes VALUES(null,2,"1993-09-23 12:10:10","i want lunch pls",1234567891);
 INSERT INTO friendlist VALUES(1, 2);
 
